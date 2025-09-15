@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>TikTokログインデモ（審査用）</title>
+</head>
+<body>
+  <h1>TikTokでログイン（審査用デモ）</h1>
+  <button id="loginBtn">TikTokでログイン</button>
+  <pre id="output"></pre>
+
+  <script>
+    // ===== ここを自分のSandbox Client Keyに置き換え =====
+    const CLIENT_KEY = "sbawn4qvq8y04wbw99";
+    // ===== ここを自分のGitHub PagesのURLに置き換え =====
+    const REDIRECT_URI = "https://fukui-rrr.github.io/tiktok-api/index.html";
+
+    const SCOPE = "user.info.basic";
+
+    document.getElementById("loginBtn").onclick = () => {
+      const state = Math.random().toString(36).slice(2);
+      const url = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=${SCOPE}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}`;
+      window.location.href = url;
+    };
+
+    // 認可コード取得表示
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    if (code) {
+      document.getElementById("output").textContent = "認可コードを取得しました:\n" + code;
+    }
+  </script>
+</body>
+</html>
